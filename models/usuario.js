@@ -21,7 +21,7 @@ const AdministradorSchema = new Schema({
     ultimaModificacion: {type: String, required: true}
 });
 
-const Administrador = mongoose.models.Administrador || mongoose.model('Administrador', AdministradorSchema);
+const Administrador = Usuario.discriminator('Administrador', AdministradorSchema);
 
 
 const ClienteSchema = new Schema({ 
@@ -31,7 +31,7 @@ const ClienteSchema = new Schema({
     descuento: {type: Number, required: true}
 });
 
-const Cliente = mongoose.models.Cliente || mongoose.model('Cliente', ClienteSchema);
+const Cliente = Usuario.discriminator('Cliente', ClienteSchema);
 
 
 const RepartidorSchema = new Schema({ 
@@ -44,6 +44,6 @@ const RepartidorSchema = new Schema({
     estado: {type: Boolean, required: true}
 });
 
-const Repartidor = mongoose.models.Repartidor || mongoose.model('Repartidor', RepartidorSchema);
+const Repartidor = Usuario.discriminator('Repartidor', RepartidorSchema);
 
 module.exports = {Usuario, Administrador, Cliente, Repartidor}; 

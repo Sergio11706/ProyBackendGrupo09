@@ -1,25 +1,49 @@
 const {Usuario, Administrador, Cliente, Repartidor} = require('../models/usuario'); 
 const usuarioCtrl = {} 
  
-usuarioCtrl.getUsuarios = async (req, res) => { 
-    var usuarios = await Usuario.find(); 
-    res.json(usuarios); 
-} 
+usuarioCtrl.getUsuarios = async (req, res) => {
+    try {
+      const usuarios = await Usuario.find(); 
+      res.json(usuarios);
+    } catch (error) {
+      res.status(400).json({ msg: 'Error al obtener los usuarios' });
+    }
+}
  
-usuarioCtrl.createUsuario = async (req, res) => { 
-    var usuario = new Usuario(req.body); 
-    try { 
-        await usuario.save(); 
-        res.json({ 
-            'status': '1', 
-            'msg': 'Usuario guardado.'}) 
-    } catch (error) { 
-        res.status(400).json({ 
-            'status': '0', 
-            'msg': 'Error procesando operacion.'}) 
-    } 
  
-} 
+usuarioCtrl.createUsuario = async (req, res) => {
+    try {  
+      let tipo = req.body.tipoUsuario;
+      let Model;
+      switch (tipo) {
+        case 'Cliente':
+          Model = Cliente;
+          break;
+        case 'Administrador':
+          Model = Administrador;
+          break;
+        case 'Repartidor':
+          Model = Repartidor;
+          break;
+        default:
+          Model = Usuario;
+          break;
+      }
+      const nuevoUsuario = new Model(req.body);
+      await nuevoUsuario.save();
+      res.json({
+        status: '1',
+        msg: `Usuario ${tipo} guardado correctamente.`
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(400).json({
+        status: '0',
+        msg: 'Error procesando operación.'
+      });
+    }
+}
+  
 
 usuarioCtrl.deleteUsuario = async (req, res) => { 
     const usuario = await Usuario.findByIdAndDelete(req.params.id); 
@@ -27,13 +51,12 @@ usuarioCtrl.deleteUsuario = async (req, res) => {
 }
 
 usuarioCtrl.editUsuario = async (req, res) => { 
-    const vusuario =  new Usuario(req.body); 
     try { 
-        await Usuario.updateOne({_id: req.body._id}, vusuario); 
+        await Usuario.updateOne({_id: req.params.id}, req.body); 
         res.json({ 
             'status': '1', 
-            'msg': 'Usuario updated' 
-        })         
+            'msg': 'Usuario actualizado.' 
+        })                
     } catch (error) { 
         res.status(400).json({ 
             'status': '0', 
@@ -61,3 +84,6 @@ usuarioCtrl.getCliente = async (req, res) => {
     const cliente = await Cliente.findById(req.params.id); 
     res.json(cliente); 
 }
+ 
+
+module.exports = usuarioCtrl;
