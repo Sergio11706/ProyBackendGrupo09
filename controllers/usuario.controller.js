@@ -2,14 +2,9 @@ const {Usuario, Administrador, Cliente, Repartidor} = require('../models/usuario
 const usuarioCtrl = {} 
  
 usuarioCtrl.getUsuarios = async (req, res) => {
-    try {
-      const usuarios = await Usuario.find(); 
-      res.json(usuarios);
-    } catch (error) {
-      res.status(400).json({ msg: 'Error al obtener los usuarios' });
-    }
+    const usuarios = await Usuario.find(); 
+    res.json(usuarios);
 }
- 
  
 usuarioCtrl.createUsuario = async (req, res) => {
     try {  
@@ -46,8 +41,18 @@ usuarioCtrl.createUsuario = async (req, res) => {
   
 
 usuarioCtrl.deleteUsuario = async (req, res) => { 
-    const usuario = await Usuario.findByIdAndDelete(req.params.id); 
-    res.json(usuario); 
+  try { 
+      await Usuario.deleteOne({_id: req.params.id}); 
+      res.json({ 
+          status: '1', 
+          msg: 'Usuario eliminado' 
+      })    
+  } catch (error) { 
+      res.status(400).json({ 
+          'status': '0', 
+          'msg': 'Error procesando la operacion' 
+      })   
+  } 
 }
 
 usuarioCtrl.editUsuario = async (req, res) => { 
