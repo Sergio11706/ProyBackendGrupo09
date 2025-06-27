@@ -90,5 +90,32 @@ usuarioCtrl.getCliente = async (req, res) => {
     res.json(cliente); 
 }
  
+usuarioCtrl.loginUsuario = async (req, res) => { 
+  const criteria = { 
+      username: req.body.username, 
+      password: req.body.password 
+  } 
+
+  try { 
+      const user = await Usuario.findOne(criteria); 
+      if (!user) { 
+          res.json({ 
+              status: 0, 
+              msg: "not found" 
+          }) 
+      } else { 
+          res.json({ 
+              status: 1, 
+              msg: "success", 
+              username: user.username, 
+          }) 
+      } 
+  } catch (error) { 
+      res.json({ 
+          'status': '0', 
+          'msg': 'Error procesando la operacion' 
+      })   
+  } 
+}
 
 module.exports = usuarioCtrl;
