@@ -120,4 +120,19 @@ usuarioCtrl.loginUsuario = async (req, res) => {
   } 
 }
 
+usuarioCtrl.aceptarSolicitud = async (req, res) => { 
+    try { 
+        await Repartidor.updateOne({_id: req.params.id}, {estado: 'aprobado'}); 
+        res.json({ 
+            'status': '1', 
+            'msg': 'Solicitud aprobada.' 
+        })                
+    } catch (error) { 
+        res.status(400).json({ 
+            'status': '0', 
+            'msg': 'Error procesando la operacion' 
+        })       
+    } 
+}
+
 module.exports = usuarioCtrl;
