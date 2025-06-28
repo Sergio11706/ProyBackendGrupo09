@@ -108,6 +108,8 @@ usuarioCtrl.loginUsuario = async (req, res) => {
               status: 1, 
               msg: "success", 
               username: user.username, 
+              tipoUsuario: user.tipoUsuario,
+              _id: user._id
           }) 
       } 
   } catch (error) { 
