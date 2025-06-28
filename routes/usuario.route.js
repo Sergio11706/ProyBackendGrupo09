@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router(); 
 
 router.get('/', usuarioCtrl.getUsuarios); 
+router.post('/login', usuarioCtrl.loginUsuario); 
 router.post('/', usuarioCtrl.createUsuario); 
 router.put('/:id', usuarioCtrl.editUsuario); 
 router.delete('/:id', usuarioCtrl.deleteUsuario);
