@@ -12,5 +12,7 @@ router.get('/administrador/:id', usuarioCtrl.getAdministrador);
 router.get('/repartidores', usuarioCtrl.getRepartidores); 
 router.get('/repartidor/:id', usuarioCtrl.getRepartidor); 
 router.get('/cliente/:id', usuarioCtrl.getCliente); 
+router.get('/aprobarSolicitud/:id', usuarioCtrl.aceptarSolicitud);
+router.get('/rechazarSolicitud/:id', usuarioCtrl.rechazarSolicitud);
 
 module.exports = router; 

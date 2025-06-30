@@ -109,6 +109,7 @@ usuarioCtrl.loginUsuario = async (req, res) => {
               msg: "success", 
               username: user.username, 
               tipoUsuario: user.tipoUsuario,
+              estado: user.estado,
               _id: user._id
           }) 
       } 
@@ -118,6 +119,36 @@ usuarioCtrl.loginUsuario = async (req, res) => {
           'msg': 'Error procesando la operacion' 
       })   
   } 
+}
+
+usuarioCtrl.aceptarSolicitud = async (req, res) => { 
+    try { 
+        await Repartidor.updateOne({_id: req.params.id}, {estado: 'aprobado'}); 
+        res.json({ 
+            'status': '1', 
+            'msg': 'Solicitud aprobada.' 
+        })                
+    } catch (error) { 
+        res.status(400).json({ 
+            'status': '0', 
+            'msg': 'Error procesando la operacion' 
+        })       
+    } 
+}
+
+usuarioCtrl.rechazarSolicitud = async (req, res) => { 
+    try { 
+        await Repartidor.updateOne({_id: req.params.id}, {estado: 'rechazado'}); 
+        res.json({ 
+            'status': '1', 
+            'msg': 'Solicitud rechazada.' 
+        })                
+    } catch (error) { 
+        res.status(400).json({ 
+            'status': '0', 
+            'msg': 'Error procesando la operacion' 
+        })       
+    } 
 }
 
 module.exports = usuarioCtrl;
