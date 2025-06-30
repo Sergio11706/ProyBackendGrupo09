@@ -41,7 +41,6 @@ const Cliente = Usuario.discriminator('Cliente', ClienteSchema);
 const RepartidorSchema = new Schema({ 
     documento: {type: String, required: true},
     numeroLicencia: {type: String, required: true},
-    domicilio: {type: String, required: true},
     vehiculo: {type: String, required: true},
     zonaTrabajo: {type: String, required: true},
     rating: {type: Number, required: true},
