@@ -1,6 +1,7 @@
 const {Usuario, Administrador, Cliente, Repartidor} = require('../models/usuario'); 
 const usuarioCtrl = {} 
- 
+const jwt = require('jsonwebtoken');
+    
 usuarioCtrl.getUsuarios = async (req, res) => {
     const usuarios = await Usuario.find(); 
     res.json(usuarios);
@@ -103,14 +104,16 @@ usuarioCtrl.loginUsuario = async (req, res) => {
               status: 0, 
               msg: "not found" 
           }) 
-      } else { 
+      } else {
+          const unToken = jwt.sign({id: user._id}, "secretkey"); 
           res.json({ 
               status: 1, 
               msg: "success", 
               username: user.username, 
               tipoUsuario: user.tipoUsuario,
               estado: user.estado,
-              _id: user._id
+              _id: user._id,
+              token: unToken
           }) 
       } 
   } catch (error) { 
