@@ -6,7 +6,12 @@ var app = express();
  
 // Middlewares 
 app.use(express.json()); 
-app.use(cors({origin: 'http://localhost:4200'})); 
+app.use(cors(
+    {
+        origin: 'http://localhost:4200',
+        origin2: 'https://frontend-grupo09.onrender.com'
+    }
+)); 
  
 // Cargar módulos de rutas 
 app.use('/api/agente', require('./routes/agente.route.js'));
