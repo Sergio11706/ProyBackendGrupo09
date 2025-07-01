@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(cors(
     {
         origin: 'http://localhost:4200',
-        origin2: 'https://frontend-grupo09.onrender.com'
+        origin2: 'https://proyfrontendgrupo09.onrender.com/login'
     }
 )); 
  
