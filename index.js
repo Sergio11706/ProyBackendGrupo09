@@ -4,12 +4,17 @@ const {mongoose} = require('./database');
  
 var app = express(); 
  
+const allowOrigins = [
+    'http://localhost:4200',
+    'https://proyfrontendgrupo09.onrender.com'
+];
+
 // Middlewares 
 app.use(express.json()); 
 app.use(cors(
     {
-        origin: 'http://localhost:4200',
-        origin2: 'https://proyfrontendgrupo09.onrender.com/login'
+        origin: allowOrigins,
+        credentials: true
     }
 )); 
  
