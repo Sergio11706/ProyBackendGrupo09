@@ -6,10 +6,7 @@ const pedidoCtrl = {};
 // Obtener todos los pedidos
 pedidoCtrl.obtenerTodos = async (req, res) => {
   try {
-    const pedidos = await Pedido.find()
-      .populate('productos.producto')
-      .populate('repartidor');
-
+    const pedidos = await Pedido.find();
     res.json(pedidos);
   } catch (error) {
     console.error('Error al obtener los pedidos:', error);

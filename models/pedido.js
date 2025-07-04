@@ -8,10 +8,11 @@ const PedidoSchema = new Schema({
   productos: [{type: Producto.schema, ref: 'Producto', required: true}],
   repartidor: {type: Schema.Types.ObjectId, ref: 'Repartidor', required: false},
   imagen: {type: String, required: false},
-  estado: {type: String, enum: ['pendiente', 'preparando', 'en camino', 'entregado'], required: true},
+  estado: {type: String, enum: ['preparado', 'pendiente', 'en camino', 'entregado'], required: false},
   fecha: {type: Date, required: false},
   direccionEntrega: {type: String, required: false},
-  total: {type: Number, required: true}
+  total: {type: Number, required: true},
+  muestra: {type: Boolean, required: true}
 });
 
 module.exports = mongoose.model('Pedido', PedidoSchema);
