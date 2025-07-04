@@ -24,33 +24,13 @@ pedidoCtrl.obtenerTodos = async (req, res) => {
 pedidoCtrl.crear = async (req, res) => {
   try {
     const nuevoPedido = new Pedido(req.body);
-
-    // Validar stock suficiente
-    for (const item of nuevoPedido.productos) {
-      const producto = await Producto.findById(item.producto);
-      if (!producto) {
-        return res.status(404).json({ msg: `Producto no encontrado: ${item.producto}` });
-      }
-      if (producto.stock < item.cantidad) {
-        return res.status(400).json({ msg: `Stock insuficiente para ${producto.nombre}` });
-      }
-    }
-
-    // Descontar stock
-    for (const item of nuevoPedido.productos) {
-      await Producto.findByIdAndUpdate(
-        item.producto,
-        { $inc: { stock: -item.cantidad } },
-        { new: true }
-      );
-    }
-
-    // Guardar pedido
-    const guardado = await nuevoPedido.save();
-    res.status(201).json(guardado);
-  } catch (err) {
-    console.error('Error al crear el pedido:', err);
-    res.status(500).json({ mensaje: 'Error al crear el pedido', error: err });
+    await nuevoPedido.save();
+    res.json(nuevoPedido);
+  } catch (error) {
+    res.status(400).json({
+      mensaje: 'Error al crear el pedido',
+      error: error
+    });
   }
 };
 
