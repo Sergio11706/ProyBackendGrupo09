@@ -1,46 +1,25 @@
 const mongoose = require('mongoose');
+const { Producto } = require('./producto');
 const { Schema } = mongoose;
 
 const PedidoSchema = new Schema({
-  cliente: {
-    type: String,
-    required: true
-  },
+  nombre: {type: String, required: true},
+  cliente: {type: Schema.Types.ObjectId, ref: 'Cliente', required: false},
   productos: [
     {
       producto: {
-        type: Schema.Types.ObjectId,
+        type: Producto.schema,
         ref: 'Producto',
         required: true
       },
-      cantidad: {
-        type: Number,
-        required: true
-      }
     }
   ],
-  repartidor: {
-    type: Schema.Types.ObjectId,
-    ref: 'Repartidor',
-    required: false
-  },
-  estado: {
-    type: String,
-    enum: ['pendiente', 'preparando', 'en camino', 'entregado'],
-    default: 'pendiente'
-  },
-  fecha: {
-    type: Date,
-    default: Date.now
-  },
-  direccionEntrega: {
-    type: String,
-    required: true
-  },
-  total: {
-    type: Number,
-    required: true
-  }
+  repartidor: {type: Schema.Types.ObjectId, ref: 'Repartidor', required: false},
+  imagen: {type: String, required: false},
+  estado: {type: String, enum: ['pendiente', 'preparando', 'en camino', 'entregado'], required: false},
+  fecha: {type: Date, required: false},
+  direccionEntrega: {type: String, required: false},
+  total: {type: Number, required: true}
 });
 
 module.exports = mongoose.model('Pedido', PedidoSchema);
