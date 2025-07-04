@@ -1,8 +1,10 @@
 const Pedido = require('../models/pedido');
 const { Producto } = require('../models/producto');
 
+const pedidoCtrl = {};
+
 // Obtener todos los pedidos
-exports.obtenerTodos = async (req, res) => {
+pedidoCtrl.obtenerTodos = async (req, res) => {
   try {
     const pedidos = await Pedido.find()
       .populate('productos.producto')
@@ -11,7 +13,7 @@ exports.obtenerTodos = async (req, res) => {
     res.json(pedidos);
   } catch (error) {
     console.error('Error al obtener los pedidos:', error);
-    res.status(500).json({
+    res.status(400).json({
       mensaje: 'Error al obtener los pedidos',
       error: error
     });
@@ -19,7 +21,7 @@ exports.obtenerTodos = async (req, res) => {
 };
 
 // Crear un nuevo pedido con control de stock
-exports.crear = async (req, res) => {
+pedidoCtrl.crear = async (req, res) => {
   try {
     const nuevoPedido = new Pedido(req.body);
 
@@ -53,17 +55,20 @@ exports.crear = async (req, res) => {
 };
 
 // Eliminar un pedido
-exports.eliminar = async (req, res) => {
+pedidoCtrl.eliminar = async (req, res) => {
   try {
     await Pedido.findByIdAndDelete(req.params.id);
-    res.json({ mensaje: 'Pedido eliminado' });
+    res.json({
+      mensaje: 'Pedido eliminado',
+      id: req.params.id
+    });
   } catch (err) {
-    res.status(500).json({ mensaje: 'Error al eliminar', error: err });
+    res.status(400).json({ mensaje: 'Error al eliminar', error: err });
   }
 };
 
 // Asignar repartidor a un pedido
-exports.tomarPedido = async (req, res) => {
+pedidoCtrl.tomarPedido = async (req, res) => {
   try {
     const pedidoId = req.params.id;
     const repartidorId = req.body.repartidor;
@@ -88,3 +93,5 @@ exports.tomarPedido = async (req, res) => {
     res.status(500).json({ mensaje: 'Error al tomar el pedido', error: err });
   }
 };
+
+module.exports = pedidoCtrl;

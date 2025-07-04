@@ -9,6 +9,7 @@ const ProductoSchema = new Schema({
     precioUnitario: {type: Number, required: true},
     vencimiento: {type: Date, required: true},
     disponible: {type: Boolean, required: true},
+    imagen: {type: String, required: false},
 }, {discriminatorKey: 'tipoProducto', collection: 'productos' }) 
  
 const Producto = mongoose.models.Producto || mongoose.model('Producto', ProductoSchema);
