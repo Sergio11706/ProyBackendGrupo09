@@ -6,6 +6,6 @@ const authCtrl = require('../controllers/auth.controller');
 router.get('/', pedidoCtrl.obtenerTodos);
 router.post('/', authCtrl.verifyToken, pedidoCtrl.crear);
 router.delete('/:id', authCtrl.verifyToken, pedidoCtrl.eliminar);
-router.put('/tomar/:id', authCtrl.verifyToken, pedidoCtrl.tomarPedido);
+router.put('/:id', authCtrl.verifyToken, pedidoCtrl.modificarPedido);
 
 module.exports = router;
