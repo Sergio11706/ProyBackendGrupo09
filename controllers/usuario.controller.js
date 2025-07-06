@@ -154,4 +154,35 @@ usuarioCtrl.rechazarSolicitud = async (req, res) => {
     } 
 }
 
+usuarioCtrl.getUsuariosPorMes = async (req, res) => {
+    try {
+        const resultado = await Usuario.aggregate([
+          {
+            $group: {
+              _id: { $month: "$createdAt" },
+              cantidad: { $sum: 1 }
+            }
+          },
+          {
+            $sort: { "_id": 1 }
+          }
+        ]);
+    
+        const meses = [
+          "", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+          "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        ];
+    
+        const datos = resultado.map(r => ({
+          mes: meses[r._id],
+          cantidad: r.cantidad
+        }));
+    
+        res.json(datos);
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ msg: 'Error al obtener usuarios por mes' });
+    }
+}
+
 module.exports = usuarioCtrl;
