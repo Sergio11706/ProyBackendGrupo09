@@ -15,5 +15,6 @@ router.get('/repartidor/:id', authCtrl.verifyToken, usuarioCtrl.getRepartidor);
 router.get('/cliente/:id', authCtrl.verifyToken, usuarioCtrl.getCliente); 
 router.get('/aprobarSolicitud/:id', authCtrl.verifyToken, usuarioCtrl.aceptarSolicitud);
 router.get('/rechazarSolicitud/:id', authCtrl.verifyToken, usuarioCtrl.rechazarSolicitud);
+router.get('/usuariosPorMes', usuarioCtrl.getUsuariosPorMes);
 
 module.exports = router; 

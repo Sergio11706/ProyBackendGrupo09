@@ -15,7 +15,7 @@ const UsuarioSchema = new Schema({
     },
     email: {type: String, required: true},
     telefono: {type: String, required: true},
-}, {discriminatorKey: 'tipoUsuario', collection: 'usuarios' }) 
+}, {discriminatorKey: 'tipoUsuario', collection: 'usuarios', timestamps: true }) 
  
 const Usuario = mongoose.models.Usuario || mongoose.model('Usuario', UsuarioSchema);
 
