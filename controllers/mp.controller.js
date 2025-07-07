@@ -1,5 +1,7 @@
 const axios = require("axios");
 const mpCtrl = {};
+const dotenv = require("dotenv");
+dotenv.config();
 
 mpCtrl.getPaymentlink = async (req, res) => {
   try {
@@ -67,4 +69,4 @@ mpCtrl.getSubscriptionLink = async (req, res) => {
   }
 };
 
-module.exports = mpCtrl; 
+module.exports = mpCtrl;

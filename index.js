@@ -1,7 +1,9 @@
 const express = require('express'); 
 const cors = require('cors'); 
 const {mongoose} = require('./database'); 
- 
+const dotenv = require('dotenv');
+dotenv.config(); 
+
 var app = express(); 
  
 const allowOrigins = [
@@ -24,6 +26,7 @@ app.use('/api/pedidos', require('./routes/pedido.route.js'));
 app.use('/api/facturas', require('./routes/factura.route.js'));
 app.use('/api/productos', require('./routes/producto.route.js'));
 app.use('/api/usuarios', require('./routes/usuario.route.js'));
+app.use('/api/mp', require('./routes/mp.route.js'));
 
 // Configuración del servidor 
 app.set('port', process.env.PORT || 3000); 

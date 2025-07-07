@@ -11,7 +11,8 @@ const PedidoSchema = new Schema({
   estado: {type: String, enum: ['preparando', 'listo', 'en camino', 'entregado'], required: false},
   fecha: {type: Date, required: false},
   total: {type: Number, required: true},
-  muestra: {type: Boolean, required: true}
+  muestra: {type: Boolean, required: true},
+  pagado: {type: Boolean, required: false}
 });
 
 module.exports = mongoose.model('Pedido', PedidoSchema);

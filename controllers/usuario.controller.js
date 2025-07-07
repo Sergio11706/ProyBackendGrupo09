@@ -1,7 +1,8 @@
 const {Usuario, Administrador, Cliente, Repartidor} = require('../models/usuario'); 
 const usuarioCtrl = {} 
 const jwt = require('jsonwebtoken');
-    
+const bcrypt = require('bcrypt');    
+
 usuarioCtrl.getUsuarios = async (req, res) => {
     const usuarios = await Usuario.find(); 
     res.json(usuarios);
@@ -25,6 +26,10 @@ usuarioCtrl.createUsuario = async (req, res) => {
           Model = Usuario;
           break;
       }
+
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      req.body.password = hashedPassword;
+
       const nuevoUsuario = new Model(req.body);
       await nuevoUsuario.save();
       res.json({
@@ -58,7 +63,7 @@ usuarioCtrl.deleteUsuario = async (req, res) => {
 
 usuarioCtrl.editUsuario = async (req, res) => { 
     try { 
-        await Usuario.updateOne({_id: req.params.id}, req.body); 
+        await Usuario.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}); 
         res.json({ 
             'status': '1', 
             'msg': 'Usuario actualizado.' 
@@ -92,36 +97,33 @@ usuarioCtrl.getCliente = async (req, res) => {
 }
  
 usuarioCtrl.loginUsuario = async (req, res) => { 
-  const criteria = { 
-      username: req.body.username, 
-      password: req.body.password 
-  } 
-
-  try { 
-      const user = await Usuario.findOne(criteria); 
-      if (!user) { 
-          res.json({ 
-              status: 0, 
-              msg: "not found" 
-          }) 
-      } else {
-          const unToken = jwt.sign({id: user._id}, "secretkey"); 
-          res.json({ 
-              status: 1, 
-              msg: "success", 
-              username: user.username, 
-              tipoUsuario: user.tipoUsuario,
-              estado: user.estado,
-              _id: user._id,
-              token: unToken
-          }) 
-      } 
-  } catch (error) { 
-      res.json({ 
-          'status': '0', 
-          'msg': 'Error procesando la operacion' 
-      })   
-  } 
+    try {
+        const user = await Usuario.findOne({ username: req.body.username });
+        if (!user) {
+          return res.json({ status: 0, msg: "Usuario no encontrado" });
+        }
+    
+        const isMatch = await bcrypt.compare(req.body.password, user.password);
+        if (!isMatch) {
+          return res.json({ status: 0, msg: "Contraseña incorrecta" });
+        }
+    
+        const unToken = jwt.sign({ id: user._id }, "secretkey");
+        res.json({
+          status: 1,
+          msg: "success",
+          username: user.username,
+          tipoUsuario: user.tipoUsuario,
+          estado: user.estado,
+          _id: user._id,
+          token: unToken
+        });
+      } catch (error) {
+        res.json({
+          status: '0',
+          msg: 'Error procesando la operación'
+        });
+    }
 }
 
 usuarioCtrl.aceptarSolicitud = async (req, res) => { 
