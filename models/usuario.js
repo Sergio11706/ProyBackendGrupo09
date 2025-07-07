@@ -7,12 +7,6 @@ const UsuarioSchema = new Schema({
     password: {type: String, required: true}, 
     nombre: {type:String, required: true}, 
     apellido: {type:String, required:true}, 
-    estado: {
-        type: String,
-        enum: ['aprobado', 'pendiente', 'rechazado'],
-        default: 'pendiente',
-        required: true
-    },
     email: {type: String, required: true},
     telefono: {type: String, required: true},
 }, {discriminatorKey: 'tipoUsuario', collection: 'usuarios', timestamps: true }) 
@@ -44,6 +38,12 @@ const RepartidorSchema = new Schema({
     vehiculo: {type: String, required: true},
     zonaTrabajo: {type: String, required: true},
     rating: {type: Number, required: true},
+    estado: {
+        type: String,
+        enum: ['aprobado', 'pendiente', 'rechazado'],
+        default: 'pendiente',
+        required: true
+    },
 });
 
 const Repartidor = Usuario.discriminator('Repartidor', RepartidorSchema);

@@ -116,7 +116,8 @@ usuarioCtrl.loginUsuario = async (req, res) => {
           tipoUsuario: user.tipoUsuario,
           estado: user.estado,
           _id: user._id,
-          token: unToken
+          token: unToken,
+          permisos: user.permisos
         });
       } catch (error) {
         res.json({

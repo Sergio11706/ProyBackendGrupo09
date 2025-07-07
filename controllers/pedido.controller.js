@@ -49,7 +49,11 @@ pedidoCtrl.eliminar = async (req, res) => {
 pedidoCtrl.modificarPedido = async (req, res) => {
   try {
     const {_id, ...datosActualizados} = req.body;
-    const pedidoModificado = await Pedido.findOneAndUpdate(_id, datosActualizados, { new: true });
+    const pedidoModificado = await Pedido.findByIdAndUpdate(
+      _id,
+      datosActualizados,
+      { new: true }
+    );
     res.json({ pedidoModificado });
   } catch (err) {
     console.error('Error al modificar el pedido:', err);
