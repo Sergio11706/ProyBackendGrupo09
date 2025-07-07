@@ -1,17 +1,33 @@
 const mongoose = require('mongoose');
-const { Producto } = require('./producto');
 const { Schema } = mongoose;
 
 const PedidoSchema = new Schema({
-  nombre: {type: String, required: false},
-  cliente: {type: Schema.Types.ObjectId, ref: 'Cliente', required: false},
-  productos: [{type: Producto.schema, ref: 'Producto', required: true}],
-  repartidor: {type: Schema.Types.ObjectId, ref: 'Repartidor', required: false},
-  imagen: {type: String, required: false},
-  estado: {type: String, enum: ['preparando', 'listo', 'en camino', 'entregado'], required: false},
-  fecha: {type: Date, required: false},
-  total: {type: Number, required: true},
-  muestra: {type: Boolean, required: true}
+  items: [{
+    _id: String,
+    nombre: String,
+    descripcion: String,
+    precio: Number,
+    imagen: String,
+    componentes: [String],
+    cantidad: Number
+  }],
+  customerInfo: {
+    nombre: String,
+    email: String,
+    telefono: String,
+    direccion: String,
+    codigoPostal: String
+  },
+  total: { type: Number, required: true },
+  status: { 
+    type: String, 
+    enum: ['pendiente', 'pagado', 'rechazado', 'en_proceso', 'preparando', 'listo', 'en_camino', 'entregado'], 
+    default: 'pendiente' 
+  },
+  paymentMethod: { type: String, default: 'mercadopago' },
+  paymentId: String,
+  fecha: { type: Date, default: Date.now },
+  repartidor: { type: Schema.Types.ObjectId, ref: 'Repartidor', required: false }
 });
 
 module.exports = mongoose.model('Pedido', PedidoSchema);

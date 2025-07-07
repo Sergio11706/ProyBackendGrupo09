@@ -1,5 +1,7 @@
 const express = require('express'); 
 const cors = require('cors'); 
+const dotenv = require('dotenv');
+dotenv.config();
 const {mongoose} = require('./database'); 
  
 var app = express(); 
@@ -24,6 +26,9 @@ app.use('/api/pedidos', require('./routes/pedido.route.js'));
 app.use('/api/facturas', require('./routes/factura.route.js'));
 app.use('/api/productos', require('./routes/producto.route.js'));
 app.use('/api/usuarios', require('./routes/usuario.route.js'));
+app.use('/api/combos', require('./routes/combo.route.js'));
+app.use('/api/pagos', require('./routes/pago.route.js'));
+app.use('/api/mp', require('./routes/mp.route.js'));
 
 // Configuración del servidor 
 app.set('port', process.env.PORT || 3000); 
