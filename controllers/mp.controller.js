@@ -69,4 +69,4 @@ mpCtrl.getSubscriptionLink = async (req, res) => {
   }
 };
 
-module.exports = mpCtrl; 
+module.exports = mpCtrl;

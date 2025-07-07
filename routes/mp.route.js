@@ -8,3 +8,4 @@ router.post('/payment', authCtrl.verifyToken, mpCtrl.getPaymentlink);
 router.post('/subscription', authCtrl.verifyToken, mpCtrl.getSubscriptionLink);
 
 module.exports = router;
+
