@@ -32,7 +32,7 @@ const ClienteSchema = new Schema({
     barrio: {type: String, required: true},
     calle: {type: String, required: true},
     numeroCalle: {type: Number, required: true},
-    descuento: {type: Number, required: false}
+    descuento: {type: Number, required: true},
 });
 
 const Cliente = Usuario.discriminator('Cliente', ClienteSchema);
@@ -44,7 +44,6 @@ const RepartidorSchema = new Schema({
     vehiculo: {type: String, required: true},
     zonaTrabajo: {type: String, required: true},
     rating: {type: Number, required: true},
-    activo: {type: Boolean, required: true}
 });
 
 const Repartidor = Usuario.discriminator('Repartidor', RepartidorSchema);

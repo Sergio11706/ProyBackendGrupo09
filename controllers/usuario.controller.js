@@ -63,7 +63,7 @@ usuarioCtrl.deleteUsuario = async (req, res) => {
 
 usuarioCtrl.editUsuario = async (req, res) => { 
     try { 
-        await Usuario.updateOne({_id: req.params.id}, req.body); 
+        await Usuario.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}); 
         res.json({ 
             'status': '1', 
             'msg': 'Usuario actualizado.' 
