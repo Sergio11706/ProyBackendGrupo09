@@ -21,9 +21,7 @@ app.use(cors(
 )); 
  
 // Cargar módulos de rutas 
-app.use('/api/agente', require('./routes/agente.route.js'));
 app.use('/api/pedidos', require('./routes/pedido.route.js'));
-app.use('/api/facturas', require('./routes/factura.route.js'));
 app.use('/api/productos', require('./routes/producto.route.js'));
 app.use('/api/usuarios', require('./routes/usuario.route.js'));
 app.use('/api/mp', require('./routes/mp.route.js'));
