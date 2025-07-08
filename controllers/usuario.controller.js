@@ -62,19 +62,58 @@ usuarioCtrl.deleteUsuario = async (req, res) => {
 }
 
 usuarioCtrl.editUsuario = async (req, res) => { 
-    try { 
-        await Usuario.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}); 
-        res.json({ 
-            'status': '1', 
-            'msg': 'Usuario actualizado.' 
-        })                
-    } catch (error) { 
-        res.status(400).json({ 
-            'status': '0', 
-            'msg': 'Error procesando la operacion' 
-        })       
-    } 
-} 
+  try { 
+      // Primero obtenemos el usuario para determinar su tipo
+      const usuario = await Usuario.findById(req.params.id);
+      if (!usuario) {
+          return res.status(404).json({ 
+              status: '0', 
+              msg: 'Usuario no encontrado' 
+          });
+      }
+
+      // Actualizamos el usuario según su tipo
+      let modelo;
+      switch (usuario.tipoUsuario) {
+          case 'Cliente':
+              modelo = Cliente;
+              break;
+          case 'Administrador':
+              modelo = Administrador;
+              break;
+          case 'Repartidor':
+              modelo = Repartidor;
+              break;
+          default:
+              modelo = Usuario;
+      }
+
+      // Si se está actualizando la contraseña, la hasheamos
+      if (req.body.password) {
+          const hashedPassword = await bcrypt.hash(req.body.password, 10);
+          req.body.password = hashedPassword;
+      }
+
+      // Actualizamos el documento usando el modelo correcto
+      await modelo.findByIdAndUpdate(
+          req.params.id, 
+          { $set: req.body }, 
+          { new: true, runValidators: true }
+      );
+
+      res.json({ 
+          status: '1', 
+          msg: 'Usuario actualizado correctamente.' 
+      });                
+  } catch (error) { 
+      console.error('Error al actualizar usuario:', error);
+      res.status(400).json({ 
+          status: '0', 
+          msg: 'Error procesando la operación',
+          error: error.message
+      });       
+  } 
+}
 
 usuarioCtrl.getAdministrador = async (req, res) => { 
     const administrador = await Administrador.findById(req.params.id); 
