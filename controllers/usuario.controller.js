@@ -88,11 +88,6 @@ usuarioCtrl.editUsuario = async (req, res) => {
               modelo = Usuario;
       }
 
-      // Si se está actualizando la contraseña, la hasheamos
-      if (req.body.password) {
-          const hashedPassword = await bcrypt.hash(req.body.password, 10);
-          req.body.password = hashedPassword;
-      }
 
       // Actualizamos el documento usando el modelo correcto
       await modelo.findByIdAndUpdate(
