@@ -26,6 +26,7 @@ const ClienteSchema = new Schema({
     barrio: {type: String, required: true},
     calle: {type: String, required: true},
     numeroCalle: {type: Number, required: true},
+    tienePedido: {type: Boolean, required: true},
     descuento: {type: Number, required: true},
 });
 
