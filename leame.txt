@@ -1,0 +1,87 @@
+# Guía de Instalación - proyBackendGrupo09
+
+Esta guía te ayudará a configurar y ejecutar el proyecto Backend en tu entorno local.
+
+## URL App Deployada
+https://grupo09.onrender.com/
+
+## Requisitos Previos
+
+- Node.js (versión 14.x o superior)
+- npm (viene con Node.js)
+- MongoDB Atlas (Cuenta gratuita) o MongoDB instalado localmente
+- Editor de código (VS Code, Sublime Text, etc.)
+
+## Pasos de Instalación
+
+1. **Clonar el Repositorio**
+   ```bash
+   git clone https://github.com/Sergio11706/ProyBackendGrupo09.git
+   cd proyBackendGrupo09
+   ```
+
+2. **Instalar Dependencias**
+   ```bash
+   npm install
+   ```
+   Esto instalará todas las dependencias necesarias listadas en el archivo package.json
+
+3. **Configuración de la Base de Datos**
+   El proyecto ya está configurado para usar una base de datos MongoDB Atlas. La conexión está configurada en el archivo `database.js`.
+   
+   Si deseas usar una base de datos local o diferente, modifica la variable `URI` en el archivo `database.js`.
+
+4. **Variables de Entorno**
+   Crea un archivo `.env` en la raíz del proyecto con las siguientes variables:
+   ```
+    PORT=3000
+    ACCESS_TOKEN=token_de_mercado_pago
+    DB_HOST=cadena_de_conexion_a_mongodb
+   ```
+
+5. **Iniciar el Servidor**
+   - Para desarrollo (con recarga automática):
+     ```bash
+     npm run dev
+     ```
+   - Para producción:
+     ```bash
+     npm start
+     ```
+
+6. **Verificar la Instalación**
+   Abre tu navegador o cliente API (como Postman) y visita:
+   ```
+   http://localhost:3000
+   ```
+   Deberías ver el servidor en ejecución.
+
+## Estructura del Proyecto
+
+- `/controllers` - Controladores para manejar la lógica de negocio
+- `/models` - Modelos de datos para MongoDB
+- `/routes` - Definición de rutas de la API
+- `index.js` - Punto de entrada de la aplicación
+- `database.js` - Configuración de la base de datos
+
+## Dependencias Principales
+
+- Express: Framework web para Node.js
+- Mongoose: ODM para MongoDB
+- Bcrypt: Para el hash de contraseñas
+- JsonWebToken: Para autenticación
+- CORS: Para permitir solicitudes entre dominios
+- Dotenv: Para manejar variables de entorno
+
+## Solución de Problemas Comunes
+
+1. **Error de conexión a MongoDB**
+   - Verifica tu conexión a internet
+   - Asegúrate de que la URL de conexión en `database.js` sea correcta
+
+2. **Error de módulos faltantes**
+   - Ejecuta `npm install` para instalar todas las dependencias
+
+3. **Puerto en uso**
+   - Cambia el puerto en el archivo `.env` o termina el proceso que está usando el puerto 3000
+
